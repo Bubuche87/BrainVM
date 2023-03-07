@@ -1,0 +1,492 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Brain specifications v0.1</title>
+    <meta charset="utf-8" />
+    <style>
+      html, body { height: 100%; box-sizing: border-box; margin: 0px; padding: 0px; }
+      html { position: relative; }
+      body { position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow: scroll; }
+
+      body
+      {
+        background-image: linear-gradient( aliceblue, white );
+        background-attachment: fixed;
+        text-align: justify;
+      }
+
+      .page table
+      {
+        border-collapse: collapse;
+        box-shadow: rgba(0,0,0,0.1) 4px 4px 4px 0px;
+        background-color: white;
+        border-bottom-width: 20px;
+        border-style: solid;
+        border-color: transparent;
+        align-self: center;
+        margin: 10px;
+      }
+
+      .page table tr > *
+      {
+        border-color: transparent;
+        border-style: solid;
+        border-width: 0px 25px 0px 25px;
+        white-space: nowrap;
+      }
+
+      .page table tr:nth-child(2n) { background-color: rgba(0,0,0,0.025); }
+      .page table tr th { height: 2.5em; vertical-align: middle; }
+
+      .note {
+        color: gray;
+        margin: auto;
+        display: inline-block;
+        align-self: center;
+        max-width: 95%;
+      }
+      .note:before { content: '*'; }
+
+      .multiline_code
+      {
+        display: block;
+        white-space: pre-line;
+        padding: 25px;
+      }
+
+
+      .directory {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        display: flex;
+        max-width: 70%;
+        margin: 20px auto 20px auto;
+        box-sizing: border-box;
+      }
+
+      .pages {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        position: relative;
+
+        --tab-border-width: 1px;
+        --tab-height: 2em;
+        --tab-spacing: 5px;
+      }
+      #use_tab:checked ~ .directory .pages { flex-direction: row; }
+
+
+      .page label {
+        line-height: var(--tab-height);
+        vertical-align: middle;
+        padding: 0px 10px 0px 10px;
+      }
+
+      .page .content {
+        display: flex;
+        background-color: white;
+        padding: 15px;
+        flex-direction: column;
+        border-width: var(--tab-border-width);
+        border-style: solid;
+        margin-bottom: 20px;
+        margin-top: -1px;
+      }
+      #use_tab:checked ~ .directory .content {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: calc(var(--tab-height) + var(--tab-border-width) + 1px);
+        bottom: 0;
+        overflow: auto;
+      }
+
+
+      .pages [type="radio"] { display: none; }
+      .pages label {
+        display: block;
+        background-color: white;
+        border-radius: 5px 5px 0px 0px;
+        border-style: solid;
+        border-bottom-color: black;
+        border-bottom-style: dotted;
+        box-sizing: border-box;
+        border-width: var(--tab-border-width);
+        position: relative;
+        z-index: 1;
+      }
+      #use_tab:checked ~ .directory .pages label {
+        display: inline-block;
+        background-image: linear-gradient( lightgray 90%, gray );
+        margin-right: var(--tab-spacing);
+        border-bottom-style: solid;
+      }
+      #use_tab:checked ~ .directory .pages :checked + * label { background-image: none; border-bottom-color: white; }
+      #use_tab:checked ~ .directory .pages [type="radio"] + * .content { display: none; }
+      #use_tab:checked ~ .directory .pages :checked + * .content { display: flex; }
+
+      .page var:after {
+        content: 'var';
+        vertical-align: sub;
+        font-size: smaller;
+      }
+
+
+    </style>
+  </head>
+  <body>
+
+  <input type="checkbox" id="use_tab" checked="checked" />
+  <label for="use_tab">Use tabs</label>
+
+  <div class="directory">
+  <div class="pages">
+
+  <input type="radio" name="selected_page" id="page_overview_toggle" />
+  <div class="page">
+    <label for="page_overview_toggle">Overview</label>
+    <div class="content">
+      <p>Brain is a fantasy architecture with limited capacities.</p>
+      <p>
+        The architecture itself and the assembly code running on it are separated.<br />
+        So much so, in fact, that this document presents two different assembly languages using it: Nibble and Gobber.
+      </p>
+
+      <p>Those languages share a great number of characteristics:</p>
+
+      <ul>
+        <li>They use only ASCII characters.</li>
+        <li>They use only printable characters.</li>
+        <li>They don't use the character double-quote (")</li>
+        <li>They don't use the character backslash (\)</li>
+        <li>They use similar constants, often with exactly the same semantic</li>
+        <li>They use the same structure (action + value)</li>
+      </ul>
+
+      <!--
+      <p>The first is called "nibble", and was the original language designed for this machine.
+      Each command is stored on a single byte which is split in two nibbles (hence the name):
+      the action to perform and the value of the action.
+      </p>
+      -->
+
+      <p>The machine is accessible through an interface. In JavaScript, this interface
+      takes an Object-like style, in the form of:
+      <code class="multiline_code">vm.&lt;something&gt;(&lt;parameters&gt;)</code>
+      But its only syntaxic sugar on top of
+      <code class="multiline_code">"vm_&lt;something&gt;(vm, &lt;parameters&gt;)"</code>
+      where "vm_&lt;something&gt;" could be implemented with a preprocessor-style macro.<br />
+
+      (You are, of course, not forced to name the variable "vm")<br />
+      </p>
+
+      <p>This API is described in the tab of the same name.</p>
+    </div>
+  </div>
+
+
+  <input type="radio" name="selected_page" id="page_registers_toggle" checked="checked"/>
+  <div class="page">
+    <label for="page_registers_toggle">Registers</label>
+    <div class="content">
+      <p>
+        The machine has 16 registers of one byte each. The following table describes the names of the registers:
+      </p>
+
+      <table>
+        <tr>
+          <th>Index</th><th>Name</th><th>Alternative name</th>
+        </tr>
+        <tr><td> 0</td><td>$0</td><td>zero<a href="#is_always_zero">*</a>  </td></tr>
+        <tr><td> 1</td><td>$1</td><td>param1 </td></tr>
+        <tr><td> 2</td><td>$2</td><td>pc     </td></tr>
+        <tr><td> 3</td><td>$3</td><td>(none)<a href="#is_part_of_pc">**</a></td></tr>
+        <tr><td> 4</td><td>$4</td><td>left   </td></tr>
+        <tr><td> 5</td><td>$5</td><td>left+1 </td></tr>
+        <tr><td> 6</td><td>$6</td><td>left+2 </td></tr>
+        <tr><td> 7</td><td>$7</td><td>left+3 </td></tr>
+        <tr><td> 8</td><td>$8</td><td>right  </td></tr>
+        <tr><td> 9</td><td>$9</td><td>right+1</td></tr>
+        <tr><td>10</td><td>$a</td><td>right+2</td></tr>
+        <tr><td>11</td><td>$b</td><td>right+3</td></tr>
+        <tr><td>12</td><td>$c</td><td>io     </td></tr>
+        <tr><td>13</td><td>$d</td><td>io+1   </td></tr>
+        <tr><td>14</td><td>$e</td><td>io+2   </td></tr>
+        <tr><td>15</td><td>$f</td><td>io+3   </td></tr>
+      </table>
+
+      <p class="note" id="is_always_zero">
+        The register <var>zero</var> is a fake register in that it always contains zero. It’s not possible to modify its content.
+        If given a hardware implementation, this register should be defunct and incapable of retaining any information.
+      </p>
+
+      <p class="note" id="is_part_of_pc">
+        The register <var>$3</var> extends <var>pc</var> to form the actual program counter.
+      </p>
+
+      <p>
+        Additionally, the machine has several memory cells not accessible by the program but that can help understanding its behavior.
+      </p>
+
+      <table>
+        <tr>
+          <th>Short name</th><th>Human-readable name</th>
+        </tr>
+
+        <tr><td>fp    </td><td>Frame pointer/Function pointer </td></tr>
+        <tr><td>ic    </td><td>Instructions counter           </td></tr>
+        <tr><td>mod   </td><td>ALU type                       </td></tr>
+        <tr><td>picked</td><td>Selected register              </td></tr>
+      </table>
+
+      <p>
+        <var>fp</var> points to the beginning of the function, where the return value must be written. <br />
+        From the point of view of the function’s code, this address is 0.
+      </p>
+
+      <p>
+        <var>ic</var> contains the number of instructions the program will be allowed to perform before the system «&nbsp;reprenne la main&nbsp;».
+      </p>
+
+       <p>
+        <var>mod</var> contains the type the ALU is operating with. It contains one of the following value:
+      </p>
+
+      <table>
+        <tr>
+          <th>Code</th><th>Constant</th><th>Type (long name)</th><th>Bytes</th>
+        </tr>
+
+        <tr><td>0</td><td>TYPE_u8 </td><td>Unsigned int    </td><td>1</td></tr>
+        <tr><td>1</td><td>TYPE_i8 </td><td>Signed int      </td><td>1</td></tr>
+        <tr><td>2</td><td>TYPE_u16</td><td>Unsigned int<a href="#uses_little_endian">*</a>    </td><td>2</td></tr>
+        <tr><td>3</td><td>TYPE_i16</td><td>Signed int<a href="#uses_little_endian">*</a>      </td><td>2</td></tr>
+        <tr><td>4</td><td>TYPE_u32</td><td>Unsigned int<a href="#uses_little_endian">*</a>    </td><td>4</td></tr>
+        <tr><td>5</td><td>TYPE_i32</td><td>Signed int<a href="#uses_little_endian">*</a>      </td><td>4</td></tr>
+        <tr><td>6</td><td>TYPE_f32</td><td>Float (IEEE754)<a href="#uses_little_endian">*</a> </td><td>4</td></tr>
+      </table>
+      <p class="note" id="uses_little_endian">Uses little endian</p>
+
+      <p>
+        <var>picked</var> is used for certain actions.
+      </p>
+    </div>
+  </div>
+
+  <input type="radio" name="selected_page" id="page_alu_toggle" />
+  <div class="page">
+    <label for="page_alu_toggle">Arithmetic &amp; Logic Unit</label>
+    <div class="content">
+
+
+      <p>
+        The ALU supports the following operations:
+      </p>
+
+      <table>
+        <tr>
+          <th>Operator</th><th>Constant</th><th>Action</th><th>Operates on</th><th>Yields</th>
+        </tr>
+
+        <tr><td>+</td><td>OPA_ADD</td><td>left = left + right</td><td>Any</td><td>Same as input</td></tr>
+        <tr><td>-</td><td>OPA_SUB</td><td>left = left - right</td><td>Any</td><td>Same as input</td></tr>
+        <tr><td>*</td><td>OPA_MUL</td><td>left = left * right</td><td>Any</td><td>Same as input</td></tr>
+        <tr><td>/</td><td>OPA_DIV</td><td>left = left / right</td><td>Any</td><td>Same as input</td></tr>
+        <tr><td>++</td><td>OPA_INC</td><td>left = left + 1</td><td>Any</td><td>Same as input</td></tr>
+        <tr><td>--</td><td>OPA_DEC</td><td>left = left - 1</td><td>Any</td><td>Same as input</td></tr>
+        <tr><td>%</td><td>OPA_MOD</td><td>left = left - floor(left/right)*right</td><td><strong>Any</strong></td><td>Same as input</td></tr>
+        <tr><td>&lt;&lt;</td><td>OPA_LS</td><td>left = left &lt;&lt; right</td><td>Integers</td><td>Same as input</td></tr>
+        <tr><td>&gt;&gt;</td><td>OPA_RS</td><td>left = left &gt;&gt; right</td><td>Integers</td><td>Same as input</td></tr>
+        <tr><td>&amp;</td><td>OPA_BAND</td><td>left = left &amp; right</td><td>Integers</td><td>Same as input</td></tr>
+        <tr><td>|</td><td>OPA_BOR</td><td>left = left | right</td><td>Integers</td><td>Same as input</td></tr>
+        <tr><td>^</td><td>OPA_XOR</td><td>left = left ^ right</td><td>Integers</td><td>Same as input</td></tr>
+        <tr><td>~</td><td>OPA_BNOT</td><td>left = ~ left</td><td>Integers</td><td>Same as input</td></tr>
+
+        <tr><td>==</td><td>OPR_EQ</td><td>left = left == right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>!=</td><td>OPR_NEQ</td><td>left = left != right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>&lt;=</td><td>OPR_LEQ</td><td>left = left &lt;= right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>&gt;=</td><td>OPR_GEQ</td><td>left = left &gt;= right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>&amp;&amp;</td><td>OPR_AND</td><td>left = left &amp;&amp; right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>||</td><td>OPR_OR</td><td>left = left || right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>&lt;</td><td>OPR_L</td><td>left = left &lt; right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>&gt;</td><td>OPR_G</td><td>left = left &gt; right</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+        <tr><td>!</td><td>OPR_NOT</td><td>left = ! left</td><td>Any</td><td>Boolean <a href="#what_is_a_boolean">*</a></td>
+
+      </table>
+      <p class="note" id="what_is_a_boolean">"Boolean" is used to designate an u8 containing either 0 or 1</p>
+
+      <p>
+        Attempting to perform an operation on unsupported types can result in:
+        <ul>
+          <li>Undefined values for register left, left+1, left+2 and left+3</li>
+          <li>Program halted</li>
+        </ul>
+      </p>
+
+      <p>The ALU is also capable of performing casts, if both the source and the destination type are given.
+      When the ALU performs a cast, it also changes its current type to the destination type.</p>
+
+      <p><strong>Note:</strong>Performing a cast with the source type = the destination type does not change the data but changes the mod.</p>
+      <p>
+        Finally, the ALU is capable of performing
+        <code class="multiline_code">if(right!=0){ $2=left;$3=left+1; }</code>
+        in a single instruction.<br />
+        A hardware implementation could turn <var>right</var> into a byte containing only 1s (if any bit of right is 1) or only 0s (if all bits are 0), called "JUMP" for this explanation.<br />
+        From there, the implementation could be:
+        <code class="multiline_code">$2=(left|JUMP) &amp;  ($2|~JUMP);
+          $3=((left+1)|JUMP) &amp; ($3|~JUMP);
+        </code>
+      </p>
+    </div>
+  </div>
+
+  <input type="radio" name="selected_page" id="page_io_toggle" />
+  <div class="page">
+    <label for="page_io_toggle">IO</label>
+    <div class="content">
+      <p>The io registers are located "near the RAM".<p>
+
+      <p>In Brain, addresses are on 16 bits.<br />
+      Values are stored in <var>io</var> (an optionally <var>io+1</var>) and addresses are
+      stored in <var>io+2</var> and <var>io+3</var><br />
+
+      The mnemonic to remember that is to vizualize the vm on the left and the RAM on the right.<br />
+      The address needs to be sent first, to the RAM will know where to store data when it will receive it.
+      </p>
+
+      <p>When a byte is written or read, the address is also incremented by one.<br />
+      Similarly, when a 2-bytes value is read or written, the address is incremented by two.
+      </p>
+
+
+    </div>
+  </div>
+
+  <input type="radio" name="selected_page" id="page_gobber_toggle" />
+  <div class="page">
+    <label for="page_gobber_toggle">Gobber</label>
+    <div class="content">
+
+    <p>
+      Gobber is the second language designed for Brain.<br />
+      It uses commands of twelve bits, encoded with two characters using base64 (url version).
+    </p>
+
+    <p>
+      Each command is composed of a nibble (the action) and a byte (the value).<br />
+      The action is one of the following:
+    </p>
+
+    <table>
+      <tr>
+        <th>Name</th><th>Parameters</th><th>Description</th>
+      </tr>
+
+      <tr>
+        <td>copy</td>
+        <td>dst(hi nibble), src(lo nibble)</td>
+        <td>Copy the register <var>src</var> to <var>dst</var>. Set <var>picked</var> to <var>dst</var></td>
+      </tr>
+
+      <tr>
+        <td>seti</td>
+        <td>value (8bits)</td>
+        <td>Set the <var>picked</var> register to <var>value</var></td>
+      </tr>
+
+      <tr>
+        <td>cast</td>
+        <td>dst(hi nibble), src(lo nibble)</td>
+        <td>Cast <var>left</var> from type <var>src</var> to type <var>dst</var>. Set <var>mod</var> to <var>dst</var></td>
+      </tr>
+
+      <tr>
+        <td>exec</td>
+        <td>action</td>
+        <td>(Described below)</td>
+      </tr>
+    </table>
+
+    <p>Additionally to that, Gobber adds pseudo-actions.</p>
+
+    <table>
+      <tr>
+        <th>Name</th><th>Parameter</th><th>Description</th><th>Translates to</th>
+      </tr>
+
+      <tr>
+        <td>pick</td>
+        <td>reg</td>
+        <td>Set <var>picked</var> to <var>reg</var>.</td>
+        <td>copy reg reg</td>
+      </tr>
+    </table>
+
+    <p>The command "exec" can take one of the following value:</p>
+
+    <table>
+      <tr>
+        <th>Name</th><th>Description</th>
+      </tr>
+
+      <tr>
+        <td>lb</td><td>Load</td>
+      </tr>
+    </table>
+
+<!--
+/ 'jump'  { return OPR | OPCODE_jump }
+/ 'sysc'  { return ACTION_sysc }
+/ 'lb'    { return ACTION_lb   }
+/ 'sb'    { return ACTION_sb   }
+/ 'lw'    { return ACTION_lw   }
+/ 'sw'    { return ACTION_sw   }
+
+      'copy' _ dst:reg src:reg
+/ 'seti' _ byte
+/ 'exec' _ action
+/ 'cast' _ dst:type src:type
+/ 'pick' _ r:reg // should piggyback on 'copy' (reuse dst==src: pick A = copy A A)
+    </p>
+-->
+
+    </div>
+  </div>
+
+  <input type="radio" name="selected_page" id="page_nibble_toggle" />
+  <div class="page">
+    <label for="page_nibble_toggle">Nibble</label>
+    <div class="content">
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  </div>
+  </div>
+
+  <!--
+  const OPR_EQ  = 0x01;
+const OPR_NEQ = 0x02;
+const OPR_LEQ = 0x03;
+const OPR_GEQ = 0x04;
+const OPR_AND = 0x05;
+const OPR_OR  = 0x06;
+const OPR_L   = 0x07;
+const OPR_G   = 0x08;
+const OPR_NOT = 0x09;
+const OPR_to_pc = 0x0a;
+-->
+
+
+
+  </body>
+</html>
