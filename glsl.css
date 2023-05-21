@@ -1,0 +1,27 @@
+.glsl {
+  line-height: 1em;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgreen;
+  padding: 10px;
+  box-shadow: 0px 0px 15px 0px lightblue inset;
+  white-space: pre-wrap;
+}
+.glsl .preprocessor { color: darkgreen; }
+.glsl .control_flow { font-weight: bold; color: darkblue; }
+.glsl .type { font-weight: bold; }
+.glsl .keyword { color: orange; }
+.glsl .standard { color: green; font-weight: bold; }
+.glsl .reserved { color: red; text-decoration: underline; }
+.glsl .operator { color: darkgreen; }
+.glsl .integer { color: fuchsia; }
+.glsl .hexa { color: darkorange; }
+.glsl .octal { color: brown; }
+.glsl .real { color: purple; }
+.glsl .string { color: red; }
+
+.glsl .single-line-comment { color: gray; }
+.glsl .multi-line-comment { color: darkorchid; }
+
+.glsl .unknown { border-style: dashed; border-width: 1px;  }
+.glsl .error { border-style: dotted; border-width: 1px; border-color: red; color: red; }
